@@ -46,7 +46,8 @@ for er in elite_rates:
                 DIST_CITY=distance_matrix,
                 DATA_CITY=cities,
                 seed=RANDOM_SEED,
-                max_time=MAX_TIME
+                max_time=MAX_TIME,
+                population_multiplier=population_multiplier
             )
             
             # Sonuçları kaydet

@@ -166,9 +166,9 @@ def plot_cities(cities, it, path, distance, fig, ax):
 
 # Genetik algoritmanın ana fonksiyonu
 # Fonksiyon artık N ve DIST_CITY'yi parametre olarak alıyor
-def main(ER, CR, MR, N, DIST_CITY, DATA_CITY, seed=42, max_time=300):
+def main(ER, CR, MR, N, DIST_CITY, DATA_CITY, seed=42, max_time=300, population_multiplier=10):
     np.random.seed(seed)  # Rastgelelik için başlangıç tohumu (seed) ayarlar
-    PS = N * 2  # Popülasyon boyutu (şehir sayısının 2 katı)
+    PS = N * population_multiplier  # Popülasyon boyutu (şehir sayısı * çarpan)
     ITERATION = 700  # Maksimum iterasyon sayısı
     
     # Başlangıç popülasyonunu oluşturur
