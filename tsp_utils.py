@@ -1,17 +1,30 @@
 import pandas as pd
 import numpy as np
+import os
 # import matplotlib.pyplot as plt
 
 # Sonuçları (parametreler ve fitness değeri) bir Excel dosyasına kaydeder
 def save_results_to_excel(results_list, output_filename='results.xlsx'):
     try:
-        # Sonuçları Pandas DataFrame'ine dönüştürür
-        df = pd.DataFrame(results_list, columns=['ER', 'CR', 'MR', 'Final Distance'])
+        # Create DataFrame from new results
+        new_df = pd.DataFrame(results_list, columns=['ER', 'CR', 'MR', 'Final Distance'])
+        
+        # Add timestamp column
+        from datetime import datetime
+        new_df['Timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Check if file exists
+        if os.path.exists(output_filename):
+            # Read existing file
+            existing_df = pd.read_excel(output_filename)
+            # Concatenate with new results
+            combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+        else:
+            combined_df = new_df
 
-        # DataFrame'i Excel dosyasına kaydeder
-        df.to_excel(output_filename, index=False)
-
-        print(f"Results saved to {output_filename}")
+        # Save combined results
+        combined_df.to_excel(output_filename, index=False)
+        print(f"Results appended to {output_filename}")
     except Exception as e:
         print(f"Error saving results to {output_filename}: {e}")
 
