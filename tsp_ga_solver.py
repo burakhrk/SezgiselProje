@@ -126,6 +126,15 @@ def two_opt_mutation(my_ofs):
     my_ofs[start_index:end_index+1] = my_ofs[start_index:end_index+1][::-1]
     return my_ofs # Mutasyona uğramış rotayı döndürür
 
+# Ters Çevirme Mutasyonu (Inversion Mutation) uygular
+def inversion_mutation(my_ofs):
+    size = len(my_ofs) # Rota boyutu
+    # Rastgele bir segment seçer
+    start_index, end_index = sorted(np.random.choice(size, 2, replace=False))
+    # Seçilen segmenti ters çevirir
+    my_ofs[start_index:end_index+1] = my_ofs[start_index:end_index+1][::-1]
+    return my_ofs # Mutasyona uğramış rotayı döndürür
+
 # Ekleme Mutasyonu (Insert Mutation) uygular
 def insert_mutation(my_ofs):
     size = len(my_ofs) # Rota boyutu
@@ -213,13 +222,15 @@ def main(ER, CR, MR, N, DIST_CITY, DATA_CITY, seed=42, max_time=300, population_
             # Belirlenen mutasyon oranı (MR) olasılığı ile mutasyon uygular
             if np.random.rand() < MR:
                 mutselprob = np.random.rand()
-                # Rastgele üç mutasyon türünden birini seçer ve uygular
-                if mutselprob < 1/3:
+                # Rastgele dört mutasyon türünden birini seçer ve uygular
+                if mutselprob < 0.25:
                     my_ofs = swap_mutation(my_ofs)
-                elif mutselprob < 2/3:
+                elif mutselprob < 0.5:
                     my_ofs = two_opt_mutation(my_ofs)
-                else:
+                elif mutselprob < 0.75:
                     my_ofs = insert_mutation(my_ofs)
+                else:
+                    my_ofs = inversion_mutation(my_ofs)
             
             # Oluşturulan yavruyu ve fitness değerini yavru matrisine ekler
             offspring[i, :N] = my_ofs
